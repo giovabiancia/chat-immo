@@ -16,8 +16,13 @@ Come posso aiutarti oggi?
 
 export function RealEstateChat() {
   const [input, setInput] = useState("");
-  const { messages: wsMessages, status, sendMessage } = useWebSocket();
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    messages: wsMessages,
+    status,
+    sendMessage,
+    isLoading,
+  } = useWebSocket();
+
   const [chatHistory, setChatHistory] = useState([
     {
       type: "assistant",
@@ -37,7 +42,6 @@ export function RealEstateChat() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
-      setIsLoading(true);
       sendMessage(input.trim());
       setInput("");
     }
@@ -46,10 +50,7 @@ export function RealEstateChat() {
   useEffect(() => {
     if (wsMessages.length > 0) {
       const lastMessage = wsMessages[wsMessages.length - 1];
-
       setChatHistory((prev) => [...prev, lastMessage]);
-
-      setIsLoading(false);
     }
   }, [wsMessages]);
 
@@ -70,7 +71,7 @@ export function RealEstateChat() {
               type="assistant"
               content=""
               timestamp={Date.now()}
-              isLoading
+              isLoading={isLoading}
             />
           )}
         </main>

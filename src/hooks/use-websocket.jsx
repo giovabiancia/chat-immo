@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 export function useWebSocket() {
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState("disconnected");
   const ws = useRef(null);
   const url = "ws://152.42.137.28:1865/ws";
@@ -20,12 +21,11 @@ export function useWebSocket() {
     ws.current.onmessage = (event) => {
       try {
         const response = JSON.parse(event.data);
-
-        console.log(event.data);
         console.log(`Received response:`, response);
 
         // Add assistant message to messages if content exists
         if (response.type === "chat") {
+          setIsLoading(false);
           if (response.content || response.text) {
             setMessages((prev) => [
               ...prev,
@@ -61,6 +61,7 @@ export function useWebSocket() {
   }, []); // Empty dependency array means this runs once on mount
 
   const sendMessage = (content) => {
+    setIsLoading(true);
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
       // Send message to server
       ws.current.send(
@@ -85,5 +86,5 @@ export function useWebSocket() {
     }
   };
 
-  return { messages, status, sendMessage };
+  return { messages, status, sendMessage, isLoading };
 }
