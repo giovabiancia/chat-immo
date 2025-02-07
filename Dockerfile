@@ -1,20 +1,20 @@
-# Use the latest LTS version of Node.js
+# Usa l'immagine Node.js LTS leggera
 FROM node:18-alpine
 
-# Set the working directory inside the container
+# Imposta la directory di lavoro
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copia solo i file necessari per l'installazione delle dipendenze
 COPY package*.json ./
 
-# Install dependencies
+# Installa le dipendenze
 RUN npm install
 
-# Copy the rest of your application files
+# Copia il resto dei file dell'applicazione
 COPY . .
 
-# Expose the port your app runs on
+# Espone la porta usata da Vite
 EXPOSE 5173
 
-# Define the command to run your app
-CMD ["npm", "run", "dev"]
+# Comando per avviare Vite in modalità sviluppo
+CMD ["npm", "run", "dev", "--", "--host"]
