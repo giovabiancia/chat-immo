@@ -20,18 +20,22 @@ export function useWebSocket() {
     ws.current.onmessage = (event) => {
       try {
         const response = JSON.parse(event.data);
+
+        console.log(event.data);
         console.log(`Received response:`, response);
 
         // Add assistant message to messages if content exists
-        if (response.content || response.text) {
-          setMessages((prev) => [
-            ...prev,
-            {
-              type: "assistant",
-              content: response.content || response.text,
-              timestamp: Date.now(),
-            },
-          ]);
+        if (response.type === "chat") {
+          if (response.content || response.text) {
+            setMessages((prev) => [
+              ...prev,
+              {
+                type: "assistant",
+                content: response.content || response.text,
+                timestamp: Date.now(),
+              },
+            ]);
+          }
         }
       } catch (error) {
         console.error(`Error decoding response: ${error}`);

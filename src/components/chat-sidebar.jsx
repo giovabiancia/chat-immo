@@ -21,7 +21,10 @@ export function ChatSidebar() {
         <div className="flex justify-center mb-7">
           <img src="./logo.svg" alt="Immobiliare.it Logo" className="h-8" />
         </div>
-        <Button className="w-full justify-start gap-2 bg-secondary text-white hover:bg-secondary/90 font-bold">
+        <Button
+          className="w-full justify-start gap-2 bg-secondary text-white hover:bg-secondary/90 font-bold"
+          onClick={() => window.location.reload()}
+        >
           <PlusCircle className="h-4 w-4" />
           Nuova chat
         </Button>
