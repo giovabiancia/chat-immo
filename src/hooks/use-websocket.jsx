@@ -92,5 +92,5 @@ export function useWebSocket() {
     }
   };
 
-  return { messages, status, sendMessage, isLoading, error };
+  return { messages, status, sendMessage, isLoading, error, setMessages };
 }

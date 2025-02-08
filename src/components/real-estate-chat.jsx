@@ -58,9 +58,14 @@ export function RealEstateChat() {
     scrollToBottom();
   }, [chatHistory, scrollToBottom]);
 
+  const handleChangeConversation = (conv) => {
+    console.log("carica nuova conversazione");
+    setChatHistory(conv);
+  };
+
   return (
     <div className="flex h-screen">
-      <ChatSidebar />
+      <ChatSidebar onConversationLoaded={handleChangeConversation} />
       <div className="flex-1 flex flex-col">
         <main ref={chatContainerRef} className="flex-1 overflow-y-auto">
           {chatHistory.map((message, index) => (

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ButtonLoadCoversation from "./button-load-coversation";
 
-export function ChatSidebar() {
+export function ChatSidebar({ onConversationLoaded }) {
   const [conversazioni, setConversazioni] = useState([]);
   const [loading, setLoading] = useState(true); // Stato per il caricamento
 
@@ -52,7 +52,10 @@ export function ChatSidebar() {
               </div>
             ) : conversazioni.length > 0 ? (
               conversazioni.map((d) => (
-                <ButtonLoadCoversation data={d}></ButtonLoadCoversation>
+                <ButtonLoadCoversation
+                  data={d}
+                  onConversationLoaded={onConversationLoaded}
+                ></ButtonLoadCoversation>
               ))
             ) : (
               <p className="text-gray-500 text-sm px-2">
