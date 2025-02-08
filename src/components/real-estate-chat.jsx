@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { ChatMessage } from "./chat-message";
-import { ChatInput } from "./chat-input";
-import { ChatSidebar } from "./chat-sidebar";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useWebSocket } from "../hooks/use-websocket";
+import { ChatInput } from "./chat-input";
+import { ChatMessage } from "./chat-message";
+import { ChatSidebar } from "./chat-sidebar";
 
 const WELCOME_MESSAGE = `
 # Benvenuto nell'Assistente Immobiliare 👋
@@ -80,6 +80,7 @@ export function RealEstateChat() {
           setInput={setInput}
           onSubmit={handleSubmit}
           isLoading={isLoading}
+          status={status}
         />
       </div>
     </div>

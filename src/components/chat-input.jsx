@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SendHorizonal } from "lucide-react";
+import { CheckCircle, SendHorizonal, XCircle } from "lucide-react";
 import { useRef, useEffect } from "react";
 
-export function ChatInput({ input, setInput, onSubmit, isLoading }) {
+export function ChatInput({ input, setInput, onSubmit, isLoading, status }) {
   const textareaRef = useRef(null);
 
   // Auto-resize textarea
@@ -47,6 +47,8 @@ export function ChatInput({ input, setInput, onSubmit, isLoading }) {
             <SendHorizonal className="h-4 w-4" />
             <span className="sr-only">Invia messaggio</span>
           </Button>
+          {status === "connected" && <CheckCircle color="green"></CheckCircle>}
+          {status === "disconnected" && <XCircle color="red"></XCircle>}
         </form>
         <div className="mt-2 text-xs text-muted-foreground">
           Premi Invio per inviare, Shift + Invio per andare a capo

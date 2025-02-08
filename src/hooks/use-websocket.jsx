@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export function useWebSocket() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [status, setStatus] = useState("disconnected");
   const ws = useRef(null);
   const url = "ws://152.42.137.28:1865/ws";
@@ -16,6 +18,7 @@ export function useWebSocket() {
     ws.current.onopen = () => {
       console.log(`WebSocket connection established`);
       setStatus("connected");
+      //toast("Connessione a WS effettuata", { type: "success" });
     };
 
     ws.current.onmessage = (event) => {
@@ -39,6 +42,8 @@ export function useWebSocket() {
         }
       } catch (error) {
         console.error(`Error decoding response: ${error}`);
+        toast("Errore decoding response", { type: "errore" });
+        setError(true);
       }
     };
 
@@ -83,8 +88,9 @@ export function useWebSocket() {
       ]);
     } else {
       console.warn("WebSocket is not open");
+      toast("WebSocket is not open", { type: "warning" });
     }
   };
 
-  return { messages, status, sendMessage, isLoading };
+  return { messages, status, sendMessage, isLoading, error };
 }

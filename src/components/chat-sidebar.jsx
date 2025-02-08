@@ -1,20 +1,29 @@
 import { Button } from "@/components/ui/button";
-import { Building, Home, MapPin, PlusCircle } from "lucide-react";
-
-const PROPERTY_TYPES = [
-  { icon: Home, label: "Case" },
-  { icon: Building, label: "Appartamenti" },
-  { icon: MapPin, label: "Terreni" },
-];
-
-const EXAMPLE_QUERIES = [
-  "Cerca appartamenti a Milano con 2 camere",
-  "Case con giardino a Roma sotto 300.000€",
-  "Affitto monolocale zona centro",
-  "Ville con piscina in Toscana",
-];
+import { PlusCircle, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ButtonLoadCoversation from "./button-load-coversation";
 
 export function ChatSidebar() {
+  const [conversazioni, setConversazioni] = useState([]);
+  const [loading, setLoading] = useState(true); // Stato per il caricamento
+
+  useEffect(() => {
+    fetch("https://www.freetestapi.com/api/v1/animals") // Sostituisci con l'API corretta
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setConversazioni(data);
+      })
+      .catch((error) => {
+        console.error("Errore nel recupero delle chat:", error);
+        toast.error(`Errore nel recupero delle chat: ${error.message}`, {
+          type: "error",
+        });
+      })
+      .finally(() => setLoading(false)); // Disattiva il loader alla fine
+  }, []);
+
   return (
     <div className="flex h-full w-[300px] flex-col bg-gray-50">
       <div className="p-4 border-b bg-primary">
@@ -29,42 +38,27 @@ export function ChatSidebar() {
           Nuova chat
         </Button>
       </div>
+      <h2 className="ms-4 pt-4 mb-2 px-2 text-xs font-semibold text-primary uppercase">
+        Conversazioni
+      </h2>
 
       <div className="flex-1 overflow-y-auto p-4">
         <div className="space-y-4">
-          <div>
-            <h2 className="mb-2 px-2 text-xs font-semibold text-primary">
-              TIPO IMMOBILE
-            </h2>
-            <div className="space-y-1">
-              {PROPERTY_TYPES.map((type) => (
-                <Button
-                  key={type.label}
-                  variant="ghost"
-                  className="w-full justify-start gap-2 text-gray-700 hover:text-primary hover:bg-blue-50"
-                >
-                  <type.icon className="h-4 w-4" />
-                  {type.label}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="mb-2 px-2 text-xs font-semibold text-primary">
-              RICERCHE SUGGERITE
-            </h2>
-            <div className="space-y-1">
-              {EXAMPLE_QUERIES.map((query) => (
-                <Button
-                  key={query}
-                  variant="ghost"
-                  className="w-full text-left justify-start text-sm font-normal text-gray-700 hover:text-primary hover:bg-blue-50 truncate line-clamp-2"
-                >
-                  {query}
-                </Button>
-              ))}
-            </div>
+          <div className="space-y-1">
+            {loading ? (
+              // Mostra il loader
+              <div className="flex justify-center items-center py-10">
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+              </div>
+            ) : conversazioni.length > 0 ? (
+              conversazioni.map((d) => (
+                <ButtonLoadCoversation data={d}></ButtonLoadCoversation>
+              ))
+            ) : (
+              <p className="text-gray-500 text-sm px-2">
+                Nessuna conversazione disponibile
+              </p>
+            )}
           </div>
         </div>
       </div>

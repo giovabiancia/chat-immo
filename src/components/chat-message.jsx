@@ -6,7 +6,9 @@ import rehypeRaw from "rehype-raw";
 
 export function ChatMessage({ type, content, timestamp, isLoading }) {
   const isAssistant = type === "assistant";
-  const hasIframe = content.includes("<iframe");
+
+  // Funzione per verificare se il contenuto è HTML
+  const isHTML = /<\/?[a-z][\s\S]*>/i.test(content);
 
   return (
     <div
@@ -21,19 +23,20 @@ export function ChatMessage({ type, content, timestamp, isLoading }) {
           isAssistant ? "flex-row" : "flex-row-reverse"
         )}
       >
-        <Avatar className="h-8 w-8 md:h-10 md:w-10 shrink-0">
-          <AvatarFallback
-            className={
-              isAssistant ? "bg-white text-white" : "bg-secondary text-white"
-            }
-          >
-            {isAssistant ? (
-              <img className="h-5 w-5" src="./icona-immobiliare.png" />
-            ) : (
+        <Avatar className="h-5 w-5 md:h-8 md:w-8 shrink-0">
+          {isAssistant ? (
+            <img
+              className="h-5 w-5 md:h-8 md:w-8"
+              src="./icona-immobiliare.png"
+              alt="Assistant Icon"
+            />
+          ) : (
+            <AvatarFallback className="bg-secondary text-white">
               <User2 className="h-5 w-5" />
-            )}
-          </AvatarFallback>
+            </AvatarFallback>
+          )}
         </Avatar>
+
         <div className="flex-1 space-y-2">
           <div
             className={cn(
@@ -47,21 +50,22 @@ export function ChatMessage({ type, content, timestamp, isLoading }) {
                 <div className="h-2 w-2 animate-bounce bg-primary/50 rounded-full [animation-delay:-0.15s]" />
                 <div className="h-2 w-2 animate-bounce bg-primary/50 rounded-full" />
               </div>
-            ) : hasIframe ? (
-              <div dangerouslySetInnerHTML={{ __html: content }}></div>
+            ) : isHTML ? (
+              <div dangerouslySetInnerHTML={{ __html: content }} />
             ) : (
               <ReactMarkdown remarkPlugins={[]} rehypePlugins={[rehypeRaw]}>
                 {content}
               </ReactMarkdown>
             )}
           </div>
+
           <div
             className={cn(
               "text-xs text-muted-foreground",
               isAssistant ? "text-left" : "text-right"
             )}
           >
-            {new Date(timestamp).toLocaleTimeString()}
+            {timestamp && new Date(timestamp).toLocaleTimeString()}
           </div>
         </div>
       </div>
