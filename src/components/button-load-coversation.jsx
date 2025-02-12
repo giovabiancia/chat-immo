@@ -37,11 +37,49 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
     setIsLoading(true);
     console.log("recover chat ");
 
-    //TODO recuperare da api e settare vera convstsazione
-    setTimeout(() => {
-      setIsLoading(false);
-      onConversationLoaded(generateRandomConversation());
-    }, 3000);
+    fetch("http://152.42.137.28:1865/custom/get_conversation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: "user_chat",
+        chat_id: "test",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        let chat_history = data["chat_history"];
+
+        if (!chat_history) {
+          return toast.warning(
+            `Errore nel recupero della conversazione: ${error.message}`,
+            {
+              type: "warning",
+            }
+          );
+        }
+
+        let conData = chat_history.map((chat) => {
+          return {
+            type: "",
+            content: "",
+            timestamp: "",
+          };
+        });
+
+        // onConversationLoaded(conData);
+      })
+      .catch((error) => {
+        console.error("Errore nel recupero della conversazione:", error);
+        toast.error(
+          `Errore nel recupero della conversazione: ${error.message}`,
+          {
+            type: "error",
+          }
+        );
+      })
+      .finally(() => setIsLoading(false)); // Disattiva il loader alla fine
   };
   return (
     <Button
@@ -49,7 +87,7 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
       variant="ghost"
       className="w-full justify-start gap-2 text-gray-700 hover:text-primary hover:bg-blue-50"
       loading={isLoading}
-      onClick={handleClick}
+      onClick={() => handleClick(data?.id)}
     >
       {data?.test || "Senza nome"}
     </Button>

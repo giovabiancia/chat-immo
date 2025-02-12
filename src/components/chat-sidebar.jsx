@@ -6,9 +6,14 @@ import ButtonLoadCoversation from "./button-load-coversation";
 
 export function ChatSidebar({ onConversationLoaded }) {
   const [conversazioni, setConversazioni] = useState([]);
-  const [loading, setLoading] = useState(true); // Stato per il caricamento
+  const [loading, setLoading] = useState(false); // Stato per il caricamento
 
   useEffect(() => {
+    setConversazioni([
+      { test: "Valutazione di una Villa a Roma: Stima e Dettagli" },
+    ]);
+
+    /*
     fetch("http://152.42.137.28:1865/custom/get_chat_list", {
       method: "POST",
       headers: {
@@ -22,7 +27,10 @@ export function ChatSidebar({ onConversationLoaded }) {
       .then((data) => {
         console.log(data);
         if (data?.chat_list) {
-          setConversazioni(data?.chat_list);
+          //FIXME rimuovi
+          setConversazioni([
+            { test: "Valutazione di una Villa a Roma: Stima e Dettagli" },
+          ]);
         }
         toast.warning(`Chat list non presente`, {
           type: "warning",
@@ -35,6 +43,8 @@ export function ChatSidebar({ onConversationLoaded }) {
         });
       })
       .finally(() => setLoading(false)); // Disattiva il loader alla fine
+
+      */
   }, []);
 
   return (
