@@ -9,7 +9,7 @@ export function useWebSocket() {
   const [status, setStatus] = useState("disconnected");
   const ws = useRef(null);
   const url = "ws://152.42.137.28:1865/ws";
-  const userId = "giovanni";
+  const userId = "user";
 
   useEffect(() => {
     // Create WebSocket connection

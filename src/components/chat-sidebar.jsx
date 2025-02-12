@@ -9,11 +9,24 @@ export function ChatSidebar({ onConversationLoaded }) {
   const [loading, setLoading] = useState(true); // Stato per il caricamento
 
   useEffect(() => {
-    fetch("https://www.freetestapi.com/api/v1/animals") // Sostituisci con l'API corretta
+    fetch("http://152.42.137.28:1865/custom/get_chat_list", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: "user", // Sostituisci con il valore corretto
+      }),
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setConversazioni(data);
+        if (data?.chat_list) {
+          setConversazioni(data?.chat_list);
+        }
+        toast.warning(`Chat list non presente`, {
+          type: "warning",
+        });
       })
       .catch((error) => {
         console.error("Errore nel recupero delle chat:", error);

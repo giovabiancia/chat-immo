@@ -51,7 +51,7 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
       loading={isLoading}
       onClick={handleClick}
     >
-      {data?.name || "Senza nome"}
+      {data?.test || "Senza nome"}
     </Button>
   );
 }
