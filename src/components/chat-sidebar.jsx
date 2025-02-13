@@ -73,9 +73,10 @@ export function ChatSidebar({ onConversationLoaded }) {
                 <Loader2 className="h-6 w-6 animate-spin text-primary" />
               </div>
             ) : conversazioni.length > 0 ? (
-              conversazioni.map((d) => (
+              conversazioni.map((d, i) => (
                 <ButtonLoadCoversation
                   data={d}
+                  key={i}
                   onConversationLoaded={onConversationLoaded}
                 ></ButtonLoadCoversation>
               ))
