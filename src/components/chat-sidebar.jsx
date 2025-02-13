@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import ButtonLoadCoversation from "./button-load-coversation";
 
 export function ChatSidebar({ onConversationLoaded }) {

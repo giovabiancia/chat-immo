@@ -1,19 +1,54 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { User2 } from "lucide-react";
+import { ThumbsDown, ThumbsUp, User2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import { useState } from "react";
 
 export function ChatMessage({ type, content, timestamp, isLoading }) {
   const isAssistant = type === "assistant";
-
-  // Funzione per verificare se il contenuto è HTML
   const isHTML = /<\/?[a-z][\s\S]*>/i.test(content);
+  const [feedback, setFeedback] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleFeedback = async (type) => {
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch(
+        "http://152.42.137.28:1865/custom/segnalazione_risposta",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            input: content, // passing the message content
+            should_be_blocked: type === "negative",
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Feedback submitted successfully:", data);
+      setFeedback(type);
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div
       className={cn(
-        "group relative w-full px-4 md:px-8 py-6",
+        "group relative w-full px-4 md:px-8 py-6 ease-linear",
         isAssistant ? "bg-blue-50" : "bg-background"
       )}
     >
@@ -59,13 +94,59 @@ export function ChatMessage({ type, content, timestamp, isLoading }) {
             )}
           </div>
 
-          <div
-            className={cn(
-              "text-xs text-muted-foreground",
-              isAssistant ? "text-left" : "text-right"
+          <div className="flex items-center justify-between">
+            <div
+              className={cn(
+                "text-xs text-muted-foreground",
+                isAssistant ? "text-left" : "text-right"
+              )}
+            >
+              {timestamp && new Date(timestamp).toLocaleTimeString()}
+            </div>
+            {!isAssistant && (
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "transition-all",
+                    feedback === "positive"
+                      ? "opacity-100 text-green-500 hover:text-green-600 hover:bg-green-50"
+                      : feedback
+                      ? "hidden"
+                      : "group-hover:opacity-100"
+                  )}
+                  onClick={() => handleFeedback("positive")}
+                  disabled={feedback === "positive" || isSubmitting}
+                >
+                  <ThumbsUp className="h-4 w-4" />
+                  {feedback === "positive" && (
+                    <span className="ml-2 text-xs">
+                      Thanks for the feedback!
+                    </span>
+                  )}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "transition-all",
+                    feedback === "negative"
+                      ? "opacity-100 text-red-500 hover:text-red-600 hover:bg-red-50"
+                      : feedback
+                      ? "hidden"
+                      : "group-hover:opacity-100"
+                  )}
+                  onClick={() => handleFeedback("negative")}
+                  disabled={feedback === "negative" || isSubmitting}
+                >
+                  <ThumbsDown className="h-4 w-4" />
+                  {feedback === "negative" && (
+                    <span className="ml-2 text-xs">Feedback sent</span>
+                  )}
+                </Button>
+              </div>
             )}
-          >
-            {timestamp && new Date(timestamp).toLocaleTimeString()}
           </div>
         </div>
       </div>

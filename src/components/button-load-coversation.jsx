@@ -37,7 +37,9 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
     setIsLoading(true);
     console.log("recover chat ");
 
-    fetch("http://152.42.137.28:1865/custom/get_conversation", {
+    onConversationLoaded(generateRandomConversation(5));
+
+    /* fetch("http://152.42.137.28:1865/custom/get_conversation", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +81,7 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
           }
         );
       })
-      .finally(() => setIsLoading(false)); // Disattiva il loader alla fine
+      .finally(() => setIsLoading(false));  */
   };
   return (
     <Button
