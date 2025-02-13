@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const WELCOME_MESSAGE = `
 # Benvenuto nell'Assistente Immobiliare 👋
@@ -29,6 +29,7 @@ export function RealEstateChat() {
     isLoading,
   } = useWebSocket();
   const navigate = useNavigate();
+  const { chat } = useParams();
 
   const [chatHistory, setChatHistory] = useState([
     {
@@ -175,6 +176,7 @@ export function RealEstateChat() {
               onSubmit={handleSubmit}
               isLoading={isLoading}
               status={status}
+              id={chat}
             />
           </div>
         </div>

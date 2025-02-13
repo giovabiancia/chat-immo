@@ -5,7 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle, SendHorizonal, XCircle } from "lucide-react";
 import { useRef, useEffect } from "react";
 
-export function ChatInput({ input, setInput, onSubmit, isLoading, status }) {
+export function ChatInput({
+  input,
+  setInput,
+  onSubmit,
+  isLoading,
+  status,
+  id,
+}) {
   const textareaRef = useRef(null);
 
   // Auto-resize textarea
@@ -20,7 +27,7 @@ export function ChatInput({ input, setInput, onSubmit, isLoading, status }) {
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      onSubmit(e, uuid);
+      onSubmit(e, id);
     }
   };
 
