@@ -47,7 +47,7 @@ export function ChatSidebar({ onConversationLoaded }) {
   }, []);
 
   return (
-    <div className="flex h-full w-[300px] flex-col bg-gray-50">
+    <div className="flex h-full w-[300px] flex-col bg-gray-80">
       <div className="p-4 border-b bg-primary">
         <div className="flex justify-center mb-7">
           <img src="./logo.svg" alt="Immobiliare.it Logo" className="h-8" />

@@ -74,6 +74,7 @@ export function useWebSocket() {
           type: "chat",
           text: content,
           user_id: userId,
+          chat_id: "id_prova_chat",
         })
       );
 
@@ -89,6 +90,7 @@ export function useWebSocket() {
     } else {
       console.warn("WebSocket is not open");
       toast("WebSocket is not open", { type: "warning" });
+      setIsLoading(false);
     }
   };
 

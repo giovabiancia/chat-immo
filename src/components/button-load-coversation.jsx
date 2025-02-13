@@ -39,6 +39,8 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
 
     onConversationLoaded(generateRandomConversation(5));
 
+    setIsLoading(false);
+
     /* fetch("http://152.42.137.28:1865/custom/get_conversation", {
       method: "POST",
       headers: {
