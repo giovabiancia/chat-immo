@@ -45,7 +45,7 @@ export function ChatSidebar({ onConversationLoaded }) {
     <div className="flex h-full w-[300px] flex-col bg-gray-80">
       <div className="p-4 border-b bg-primary">
         <div className="flex justify-center mb-7">
-          <img src="./logo.svg" alt="Immobiliare.it Logo" className="h-8" />
+          <img src="/logo.svg" alt="Immobiliare.it Logo" className="h-8" />
         </div>
         <Button
           className="w-full justify-start gap-2 bg-secondary text-white hover:bg-secondary/90 font-bold"

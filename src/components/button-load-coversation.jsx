@@ -74,7 +74,7 @@ export default function ButtonLoadCoversation({ data, onConversationLoaded }) {
           };
         });
 
-        onConversationLoaded(conData);
+        onConversationLoaded(conData, data?.id);
       })
       .catch((error) => {
         console.error("Errore nel recupero della conversazione:", error);

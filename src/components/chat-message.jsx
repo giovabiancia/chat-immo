@@ -64,7 +64,7 @@ export function ChatMessage({ type, content, timestamp, isLoading }) {
           {isAssistant ? (
             <img
               className="h-5 w-5 md:h-8 md:w-8"
-              src="./icona-immobiliare.png"
+              src="/icona-immobiliare.png"
               alt="Assistant Icon"
             />
           ) : (

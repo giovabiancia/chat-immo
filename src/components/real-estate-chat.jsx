@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const WELCOME_MESSAGE = `
 # Benvenuto nell'Assistente Immobiliare 👋
@@ -27,6 +28,7 @@ export function RealEstateChat() {
     sendMessage,
     isLoading,
   } = useWebSocket();
+  const navigate = useNavigate();
 
   const [chatHistory, setChatHistory] = useState([
     {
@@ -58,7 +60,6 @@ export function RealEstateChat() {
       console.log(chatHistory);
       if (chatHistory.length === 0) {
         const uuid = uuidv4();
-        console.log(uuid);
       }
       sendMessage(input.trim(), uuid);
       setInput("");
@@ -80,7 +81,8 @@ export function RealEstateChat() {
     scrollToBottom();
   }, [chatHistory, scrollToBottom]);
 
-  const handleChangeConversation = (conv) => {
+  const handleChangeConversation = (conv, id) => {
+    navigate("/chat/" + id);
     setChatHistory(conv);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false);
