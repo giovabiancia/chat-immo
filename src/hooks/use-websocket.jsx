@@ -42,7 +42,7 @@ export function useWebSocket() {
         }
       } catch (error) {
         console.error(`Error decoding response: ${error}`);
-        toast("Errore decoding response", { type: "errore" });
+        toast("Errore decoding response", { type: "error" });
         setError(true);
       }
     };

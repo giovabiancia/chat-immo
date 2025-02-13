@@ -5,6 +5,7 @@ import { ThumbsDown, ThumbsUp, User2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function ChatMessage({ type, content, timestamp, isLoading }) {
   const isAssistant = type === "assistant";
@@ -39,6 +40,7 @@ export function ChatMessage({ type, content, timestamp, isLoading }) {
       setFeedback(type);
     } catch (error) {
       console.error("Error submitting feedback:", error);
+      toast("Error submitting feedback:" + error, { type: "error" });
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
