@@ -25,7 +25,7 @@ export function ChatInput({ input, setInput, onSubmit, isLoading, status }) {
   };
 
   return (
-    <div className="border-t bg-background px-4 py-4 md:px-6">
+    <div className=" bg-background px-4 py-4 md:px-6">
       <div className="mx-auto max-w-3xl">
         <form onSubmit={onSubmit} className="flex items-end gap-3">
           <Textarea
