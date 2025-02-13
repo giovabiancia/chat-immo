@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export function ChatMessage({ type, content, timestamp, isLoading }) {
-  const isAssistant = type === "assistant";
+  const isAssistant = type === "agent";
   const isHTML = /<\/?[a-z][\s\S]*>/i.test(content);
   const [feedback, setFeedback] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);

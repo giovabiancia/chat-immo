@@ -6,6 +6,7 @@ import { ChatSidebar } from "./chat-sidebar";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { v4 as uuidv4 } from "uuid";
 
 const WELCOME_MESSAGE = `
 # Benvenuto nell'Assistente Immobiliare 👋
@@ -45,7 +46,7 @@ export function RealEstateChat() {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, uuid) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
       const userMessage = {
@@ -54,7 +55,12 @@ export function RealEstateChat() {
         timestamp: Date.now(),
       };
       setChatHistory((prev) => [...prev, userMessage]);
-      sendMessage(input.trim());
+      console.log(chatHistory);
+      if (chatHistory.length === 0) {
+        const uuid = uuidv4();
+        console.log(uuid);
+      }
+      sendMessage(input.trim(), uuid);
       setInput("");
       // Close sidebar on mobile when sending message
       if (window.innerWidth < 768) {

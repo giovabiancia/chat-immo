@@ -20,7 +20,7 @@ export function ChatInput({ input, setInput, onSubmit, isLoading, status }) {
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      onSubmit(e);
+      onSubmit(e, uuid);
     }
   };
 

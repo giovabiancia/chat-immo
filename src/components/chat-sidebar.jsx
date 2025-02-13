@@ -2,17 +2,17 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import ButtonLoadCoversation from "./button-load-coversation";
+import { toast } from "react-toastify";
 
 export function ChatSidebar({ onConversationLoaded }) {
   const [conversazioni, setConversazioni] = useState([]);
   const [loading, setLoading] = useState(false); // Stato per il caricamento
 
   useEffect(() => {
-    setConversazioni([
-      { test: "Valutazione di una Villa a Roma: Stima e Dettagli" },
-    ]);
+    //setConversazioni([
+    //{ test: "Valutazione di una Villa a Roma: Stima e Dettagli" },
+    //]);
 
-    /*
     fetch("http://152.42.137.28:1865/custom/get_chat_list", {
       method: "POST",
       headers: {
@@ -25,15 +25,12 @@ export function ChatSidebar({ onConversationLoaded }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data?.chat_list) {
-          //FIXME rimuovi
-          setConversazioni([
-            { test: "Valutazione di una Villa a Roma: Stima e Dettagli" },
-          ]);
+        if (!data) {
+          return toast.warning(`Chat list non presente`, {
+            type: "warning",
+          });
         }
-        toast.warning(`Chat list non presente`, {
-          type: "warning",
-        });
+        setConversazioni(data);
       })
       .catch((error) => {
         console.error("Errore nel recupero delle chat:", error);
@@ -42,8 +39,6 @@ export function ChatSidebar({ onConversationLoaded }) {
         });
       })
       .finally(() => setLoading(false)); // Disattiva il loader alla fine
-
-      */
   }, []);
 
   return (
